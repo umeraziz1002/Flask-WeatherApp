@@ -27,7 +27,7 @@ pip install flask requests
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/flask-weather-app.git
+   git clone https://github.com/umeraziz1002/Flask-WeatherApp.git
    cd flask-weather-app
    ```
 
