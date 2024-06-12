@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="../static/css/home.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="">
+        </div>
+        <form  method="post" id="cityForm">
+        <div class="search">
+            <input type="text" id="city" name="city" placeholder="Search" required>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+    </header>
+    <main>
+        <div class="current">
+            
+            {% if weather_data %}
+                {% if weather_data.error %}
+                <h1>0°C</h1>
+                <p class="city">London</p>
+                {% else %}
+                <img width="90px" src="https://openweathermap.org/img/w/{{ weather_data.weather[0].icon }}.png" alt="">
+                <h1>{{ weather_data.main.temp }}°C</h1>
+                <p class="city">{{ weather_data.name }}, {{ weather_data.sys.country }}</p>
+                {% endif %}
+                {% endif %}
+                
+                
+            </div>
+            <div class="forecast">
+                
+                {% if weather_data %}
+                    {% if weather_data.error %}
+                <div class="weather">
+                Not as hot with plenty of shine
+                <br>Tonight: Clear and very warm
+            </div>
+            {% else %}
+            <div class="weather">
+                {{ weather_data.weather[0].description }}
+                <br>Tonight: {{ weather_data.weather[0].main }}
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="feel">
+                {% if weather_data %}
+                    {% if weather_data.error %}
+                    <div >
+                        <span class="label">RealFeel Shade™</span>
+                        <span class="value">0°</span>
+                    </div>
+                    <div >
+                        <span class="label">Wind</span>
+                        <span class="value">0km/h</span>
+                    </div>
+                    <div >
+                        <span class="label">Humadity</span>
+                        <span class="value">0%</span>
+                    </div>
+                    {% else %}
+                    <div >
+                        <span class="label">RealFeel Shade™</span>
+                        <span class="value">{{ weather_data.main.temp }}°</span>
+                    </div>
+                    <div >
+                        <span class="label">Wind</span>
+                        <span class="value">{{ weather_data.wind.speed }} km/h</span>
+                    </div>
+                    <div >
+                        <span class="label">Humidity</span>
+                        <span class="value">{{ weather_data.main.humidity }}%</span>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+function updateBackground(weatherCondition) {
+    document.body.classList.remove('clear', 'clouds', 'rain', 'drizzle', 'thunderstorm', 'snow', 'mist',
+    'smoke', 'haze', 'dust', 'fog', 'sand', 'ash', 'squall', 'tornado');
+    if (weatherCondition === 'clear') {
+        document.body.classList.add('clear');
+    } else if (weatherCondition === 'clouds') {
+        document.body.classList.add('clouds');
+    } else if (weatherCondition === 'rain') {
+        document.body.classList.add('rain');
+    } else if (weatherCondition === 'drizzle') {
+        document.body.classList.add('drizzle');
+    } else if (weatherCondition === 'thunderstorm' || weatherCondition === 'tornado') {
+        document.body.classList.add('thunderstorm');
+    } else if (weatherCondition === 'haze' || weatherCondition === 'dust' || weatherCondition === 'fog' || weatherCondition === 'sand' || weatherCondition === 'ash' || weatherCondition === 'squall') {
+        document.body.classList.add('haze');
+    } else if (weatherCondition === 'snow') {
+        document.body.classList.add('snow');
+    } else if (weatherCondition === 'mist' || weatherCondition === 'smoke') {
+        document.body.classList.add('mist');
+    }else{
+        document.body.classList.add('mist');
+    }
+    // Add more conditions as needed
+}
+
+const weatherCondition = "{{ weather_data.weather[0].main }}";
+console.log(weatherCondition);
+updateBackground(weatherCondition.toLowerCase());
+});
+</script>
+</body>
+</html>
